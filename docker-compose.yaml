@@ -1,0 +1,34 @@
+version: '3'
+services:
+  # Node.js Application
+  web:
+    build: .
+    container_name: nodejs-app
+    working_dir: /app
+    ports:
+      - "4000:4000" # You can change the port as needed
+    environment:
+      NODE_ENV: Development # MongoDB connection URL
+    depends_on:
+      - mongo
+    networks:
+      - backend
+
+  # MongoDB
+  mongo:
+    image: mongo:7.0.2
+    container_name: mongodb
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/pucsd
+
+      
+    networks:
+      - backend
+
+volumes:
+  mongo-data:
+
+networks:
+  backend:
